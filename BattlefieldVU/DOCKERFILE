@@ -28,15 +28,9 @@ ENV     DISPLAY_HEIGHT=768
 ENV     DISPLAY_DEPTH=16
 ENV     AUTO_UPDATE=1
 ENV     XVFB=1
-
-## configure locale
-RUN   update-locale lang=en_US.UTF-8 \
-    &&   dpkg-reconfigure --frontend noninteractive locales
-
-
 ENV         USER=container HOME=/home/container
-WORKDIR     /home/container
 
+WORKDIR     /home/container
 
 
 COPY  ./entrypoint.sh /entrypoint.sh
