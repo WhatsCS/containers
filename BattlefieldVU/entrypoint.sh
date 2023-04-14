@@ -1,10 +1,10 @@
 # #!/bin/bash
-# cd /home/container
+cd /home/container
 
 # # Information output
-# echo "Running on Debian $(cat /etc/debian_version)"
-# echo "Current timezone: $(cat /etc/timezone)"
-# wine --version
+echo "Running on Debian $(cat /etc/debian_version)"
+echo "Current timezone: $(cat /etc/timezone)"
+wine --version
 
 if [[ ! -d "tmp" ]]; then
     mkdir tmp
