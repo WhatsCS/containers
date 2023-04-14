@@ -4,9 +4,6 @@ LABEL author="WhatsCS" maintainer="whatscs@jointheb.org"
 
 ENV   DEBIAN_FRONTEND noninteractive
 
-## add container user
-RUN   useradd -m -d /home/container -s /bin/bash container
-
 ## install required packages
 RUN     dpkg --add-architecture i386 \
     && apt-get update -y \
@@ -28,9 +25,15 @@ ENV     DISPLAY_HEIGHT=768
 ENV     DISPLAY_DEPTH=16
 ENV     AUTO_UPDATE=1
 ENV     XVFB=1
-ENV     USER=container HOME=/home/container
+ENV     NSS_WRAPPER_PASSWD=/tmp/passwd NSS_WRAPPER_GROUP=/tmp/group
+RUN     touch ${NSS_WRAPPER_PASSWD} ${NSS_WRAPPER_GROUP} \
+    && chgrp 0 ${NSS_WRAPPER_PASSWD} ${NSS_WRAPPER_GROUP} \
+    && chmod g+rw ${NSS_WRAPPER_PASSWD} ${NSS_WRAPPER_GROUP}
+ADD     passwd.template /passwd.template
 
+RUN   useradd -m -d /home/container -s /bin/bash container
 USER    container
+ENV     USER=container HOME=/home/container
 WORKDIR     /home/container
 
 COPY  ./entrypoint.sh /entrypoint.sh
