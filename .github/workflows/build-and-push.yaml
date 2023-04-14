@@ -33,6 +33,6 @@ jobs:
       with:
         context: .
         push: true
-        file: ${{ matrix.folder }}
+        file: ${{ matrix.folder }}/Dockerfile
         tags: ghcr.io/whatscs/containers:${{ matrix.folder }}
         labels: ${{ matrix.folder }}
