@@ -28,7 +28,7 @@ ENV     DISPLAY_HEIGHT=768
 ENV     DISPLAY_DEPTH=16
 ENV     AUTO_UPDATE=1
 ENV     XVFB=1
-ENV         USER=container HOME=/home/container
+ENV     USER=container HOME=/home/container
 
 WORKDIR     /home/container
 
