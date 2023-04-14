@@ -31,7 +31,8 @@ RUN     touch ${NSS_WRAPPER_PASSWD} ${NSS_WRAPPER_GROUP} \
     && chmod g+rw ${NSS_WRAPPER_PASSWD} ${NSS_WRAPPER_GROUP}
 ADD     passwd.template /passwd.template
 
-RUN   useradd -m -d /home/container -s /bin/bash container
+RUN     useradd -m -d /home/container -s /bin/bash container
+RUN     mkdir -p /mnt/install && chown container:container /mnt/install
 USER    container
 ENV     USER=container HOME=/home/container
 WORKDIR     /home/container
