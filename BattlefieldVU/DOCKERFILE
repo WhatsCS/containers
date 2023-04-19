@@ -15,19 +15,17 @@ RUN     mkdir -pm755 /etc/apt/keyrings && wget -O /etc/apt/keyrings/winehq-archi
     && apt-get update -q\
     && apt-get install -yq --install-recommends winehq-stable
 
+RUN     mkdir /opt/wine-stable/share/wine/mono \
+    && wget -O - https://dl.winehq.org/wine/wine-mono/4.9.4/wine-mono-bin-4.9.4.tar.gz | tar -xzv -C /opt/wine-stable/share/wine/mono 
+RUN     mkdir /opt/wine-stable/share/wine/gecko \
+    && wget -O /opt/wine-stable/share/wine/gecko/wine-gecko-2.47.1-x86.msi https://dl.winehq.org/wine/wine-gecko/2.47.1/wine-gecko-2.47.1-x86.msi \
+    && wget -O /opt/wine-stable/share/wine/gecko/wine-gecko-2.47.1-x86_64.msi https://dl.winehq.org/wine/wine-gecko/2.47.1/wine-gecko-2.47.1-x86_64.msi 
+
 #Clean out cache to save _some_ space
 RUN     apt-get clean
 
 
-ENV     HOME=/home/container
-ENV     WINEPREFIX=/home/container/.wine
-ENV     WINEDLLOVERRIDES="mscoree,mshtml="
-ENV     DISPLAY=:0
-ENV     DISPLAY_WIDTH=1024
-ENV     DISPLAY_HEIGHT=768
-ENV     DISPLAY_DEPTH=16
-ENV     AUTO_UPDATE=1
-ENV     XVFB=1
+
 ENV     NSS_WRAPPER_PASSWD=/tmp/passwd NSS_WRAPPER_GROUP=/tmp/group
 RUN     touch ${NSS_WRAPPER_PASSWD} ${NSS_WRAPPER_GROUP} \
     && chgrp 0 ${NSS_WRAPPER_PASSWD} ${NSS_WRAPPER_GROUP} \
@@ -38,6 +36,14 @@ RUN     useradd -m -d /home/container -s /bin/bash container
 RUN     mkdir -p /mnt/install && chown container:container /mnt/install
 USER    container
 ENV     USER=container HOME=/home/container
+ENV     WINEPREFIX=/home/container/.wine
+ENV     WINEDLLOVERRIDES="mscoree,mshtml="
+ENV     DISPLAY=:0
+ENV     DISPLAY_WIDTH=1024
+ENV     DISPLAY_HEIGHT=768
+ENV     DISPLAY_DEPTH=16
+ENV     AUTO_UPDATE=1
+ENV     XVFB=1
 WORKDIR     /home/container
 
 COPY  ./entrypoint.sh /entrypoint.sh
