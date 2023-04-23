@@ -1,4 +1,4 @@
-FROM  --platform=$TARGETOS/$TARGETARCH ubuntu:22.04
+FROM ghcr.io/parkervcp/yolks:ubuntu
 
 LABEL author="WhatsCS" maintainer="whatscs@jointheb.org"
 
@@ -13,7 +13,7 @@ RUN     dpkg --add-architecture i386 \
 RUN     mkdir -pm755 /etc/apt/keyrings && wget -O /etc/apt/keyrings/winehq-archive.key https://dl.winehq.org/wine-builds/winehq.key \
     && wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/ubuntu/dists/kinetic/winehq-kinetic.sources \
     && apt-get update -q\
-    && apt-get install -yq --install-recommends winehq-stable
+    && apt-get install -yq --install-recommends wine-stable winehq-stable
 
 RUN     mkdir /opt/wine-stable/share/wine/mono \
     && wget -O - https://dl.winehq.org/wine/wine-mono/4.9.4/wine-mono-bin-4.9.4.tar.gz | tar -xzv -C /opt/wine-stable/share/wine/mono 
@@ -25,7 +25,7 @@ RUN     mkdir /opt/wine-stable/share/wine/gecko \
 RUN     apt-get clean
 
 
-RUN     useradd -m -d /home/container -s /bin/bash container
+# RUN     useradd -m -d /home/container -s /bin/bash container
 RUN     mkdir -p /mnt/install
 USER    container
 ENV     USER=container HOME=/home/container
